@@ -38,13 +38,6 @@ class color_loader
                 consolecolors[color] = from_rgb( jsarr.get_int( 0 ), jsarr.get_int( 1 ), jsarr.get_int( 2 ) );
             }
         }
-        ColorType ccolor( const std::string &color ) const {
-            const auto it = consolecolors.find( color );
-            if( it == consolecolors.end() ) {
-                throw std::runtime_error( std::string( "requested non-existing color " ) + color );
-            }
-            return it->second;
-        }
 
         void load_colorfile( const cata_path &path ) {
             JsonValue jsin = json_loader::from_path( path );
@@ -56,6 +49,14 @@ class color_loader
         }
 
     public:
+        ColorType ccolor( const std::string &color ) const {
+            const auto it = consolecolors.find( color );
+            if( it == consolecolors.end() ) {
+                throw std::runtime_error( std::string( "requested non-existing color " ) + color );
+            }
+            return it->second;
+        }
+
         /// @throws std::exception upon any kind of error.
         void load( std::array<ColorType, COLOR_NAMES_COUNT> &windowsPalette ) {
             const cata_path default_path = PATH_INFO::colors();

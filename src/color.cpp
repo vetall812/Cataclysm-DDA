@@ -28,6 +28,10 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "cata_imgui.h"
+#include "color_loader.h"
+
+using palette_array = std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>;
+palette_array windowsPaletteTemp;
 
 nc_color::operator ImVec4()
 {
@@ -539,6 +543,72 @@ void init_colors()
         {"C", {c_cyan, to_translation( "cyan" )}}, {"c", {c_light_cyan, to_translation( "light cyan" )}},
         {"P", {c_pink, to_translation( "pink" )}}, {"m", {c_magenta, to_translation( "magenta" )}}
     };
+
+    color_loader<SDL_Color> loader = color_loader<SDL_Color>();
+    loader.load(windowsPaletteTemp);
+
+    ImGuiStyle &style = ImGui::GetStyle();
+
+    float blackR = static_cast<float>( loader.ccolor("BLACK").r ) / 255.0f;
+    float blackG = static_cast<float>( loader.ccolor("BLACK").g ) / 255.0f;
+    float blackB = static_cast<float>( loader.ccolor("BLACK").b ) / 255.0f;
+
+    float blueR = static_cast<float>( loader.ccolor("BLUE").r ) / 255.0f;
+    float blueG = static_cast<float>( loader.ccolor("BLUE").g ) / 255.0f;
+    float blueB = static_cast<float>( loader.ccolor("BLUE").b ) / 255.0f;
+
+    float grayR = static_cast<float>( loader.ccolor("GRAY").r ) / 255.0f;
+    float grayG = static_cast<float>( loader.ccolor("GRAY").g ) / 255.0f;
+    float grayB = static_cast<float>( loader.ccolor("GRAY").b ) / 255.0f;
+
+    float dgrayR = static_cast<float>( loader.ccolor("DGRAY").r ) / 255.0f;
+    float dgrayG = static_cast<float>( loader.ccolor("DGRAY").g ) / 255.0f;
+    float dgrayB = static_cast<float>( loader.ccolor("DGRAY").b ) / 255.0f;
+
+    float whiteR = static_cast<float>( loader.ccolor("WHITE").r ) / 255.0f;
+    float whiteG = static_cast<float>( loader.ccolor("WHITE").g ) / 255.0f;
+    float whiteB = static_cast<float>( loader.ccolor("WHITE").b ) / 255.0f;
+
+    style.Colors[ImGuiCol_Text]                   = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_TextDisabled]           = ImVec4( dgrayR, dgrayG, dgrayB, 1.00f );
+    style.Colors[ImGuiCol_WindowBg]               = ImVec4( blackR, blackG, blackB, 0.50f );
+    style.Colors[ImGuiCol_ChildBg]                = ImVec4( blackR, blackG, blackB, 0.00f );
+    style.Colors[ImGuiCol_PopupBg]                = ImVec4( blackR, blackG, blackB, 1.00f );
+    style.Colors[ImGuiCol_Border]                 = ImVec4( whiteR, whiteG, whiteB, 0.50f );
+    style.Colors[ImGuiCol_BorderShadow]           = ImVec4( blueR,  blueG,  blueB,  0.00f );
+    style.Colors[ImGuiCol_FrameBg]                = ImVec4( dgrayR, dgrayG, dgrayB, 0.54f );
+    style.Colors[ImGuiCol_FrameBgHovered]         = ImVec4( blackR, blackG, blackB, 0.40f );
+    style.Colors[ImGuiCol_FrameBgActive]          = ImVec4( dgrayR, dgrayG, dgrayB, 0.67f );
+    style.Colors[ImGuiCol_TitleBg]                = ImVec4( blueR,  blueG,  blueB,  1.00f );
+    style.Colors[ImGuiCol_TitleBgActive]          = ImVec4( dgrayR, dgrayG, dgrayB, 1.00f );
+    style.Colors[ImGuiCol_TitleBgCollapsed]       = ImVec4( blueR,  blueG,  blueB,  0.51f );
+    style.Colors[ImGuiCol_MenuBarBg]              = ImVec4( blackR, blackG, blackB, 1.00f );
+    style.Colors[ImGuiCol_ScrollbarBg]            = ImVec4( blackR, blackG, blackB, 1.00f );
+    style.Colors[ImGuiCol_ScrollbarGrab]          = ImVec4( dgrayR, dgrayG, dgrayB, 1.00f );
+    style.Colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4( grayR,  grayG,  grayB,  1.00f );
+    style.Colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_CheckMark]              = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_SliderGrab]             = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_SliderGrabActive]       = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_Button]                 = ImVec4( dgrayR, dgrayG, dgrayB, 0.20f );
+    style.Colors[ImGuiCol_ButtonHovered]          = ImVec4( dgrayR, dgrayG, dgrayB, 1.00f );
+    style.Colors[ImGuiCol_ButtonActive]           = ImVec4( blueR,  blueG,  blueB,  1.00f );
+    style.Colors[ImGuiCol_Header]                 = ImVec4( blueR,  blueG,  blueB,  0.30f );
+    style.Colors[ImGuiCol_HeaderHovered]          = ImVec4( blackR, blackG, blackB, 0.80f );
+    style.Colors[ImGuiCol_HeaderActive]           = ImVec4( dgrayR, dgrayG, dgrayB, 1.00f );
+    style.Colors[ImGuiCol_Separator]              = ImVec4( blueR,  blueG,  blueB,  0.50f );
+    style.Colors[ImGuiCol_SeparatorHovered]       = ImVec4( whiteR, whiteG, whiteB, 0.80f );
+    style.Colors[ImGuiCol_SeparatorActive]        = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_ResizeGrip]             = ImVec4( whiteR, whiteG, whiteB, 0.20f );
+    style.Colors[ImGuiCol_ResizeGripHovered]      = ImVec4( whiteR, whiteG, whiteB, 0.70f );
+    style.Colors[ImGuiCol_ResizeGripActive]       = ImVec4( whiteR, whiteG, whiteB, 1.00f );
+    style.Colors[ImGuiCol_Tab]                    = ImVec4( blackR, blackG, blackB, 0.90f );
+    style.Colors[ImGuiCol_TabHovered]             = ImVec4( blueR,  blueG,  blueB,  0.80f );
+    style.Colors[ImGuiCol_TabActive]              = ImVec4( blueR,  blueG,  blueB,  1.00f );
+    style.Colors[ImGuiCol_TabUnfocused]           = ImVec4( blackR, blackG, blackB, 0.90f );
+    style.Colors[ImGuiCol_TabUnfocusedActive]     = ImVec4( blackR, blackG, blackB, 1.00f );
+    style.Colors[ImGuiCol_TextSelectedBg]         = ImVec4( blueR,  blueG,  blueB,  1.00f );
+    style.Colors[ImGuiCol_NavHighlight]           = ImVec4( blueR,  blueG,  blueB,  1.00f );
 }
 
 nc_color invert_color( const nc_color &c )
@@ -1032,6 +1102,7 @@ void color_manager::show_gui()
 
                 if( ui_templates.ret >= 0 && static_cast<size_t>( ui_templates.ret ) < vFiles.size() ) {
                     copy_file( vFiles[ui_templates.ret], PATH_INFO::base_colors() );
+                    init_colors();
                 }
             }
         } else if( action == "CONFIRM" ) {
